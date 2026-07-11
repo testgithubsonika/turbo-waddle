@@ -1,0 +1,3 @@
+- [x] Update API base URL in client/src/services/api.js to http://localhost:5174/api
+- [x] Add 'id' to attributes in server/controllers/train.controller.js getAllStations
+- [x] Handle API error in SearchForm.jsx by setting stations to [] on catch

@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: 'Inter Variable', sans-serif;
+  --font-heading: var(--font-sans);
+
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer utilities {
+  /* ? Smooth interactions everywhere */
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* ?? Hover Lift (slightly stronger + smoother) */
+  .hover-lift {
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* ?? Soft UI background */
+  .soft-ui {
+    background: linear-gradient(
+      180deg,
+      hsl(var(--card)) 0%,
+      hsl(var(--card)) 100%
+    );
+  }
+
+  /* ?? Premium surface (used for cards/modals) */
+  .surface {
+    background-color: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.6);
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.04),
+      0 12px 32px rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+  }
+
+  /* ?? Subtle gradient background blocks */
+  .gradient-bg {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.08),
+      hsl(var(--accent) / 0.12)
+    );
+  }
+
+  /* ?? Spacing Rhythm (clean layout system) */
+  .gap-header {
+    @apply gap-2;
+  }
+
+  .gap-section {
+    @apply gap-4;
+  }
+
+  .gap-page {
+    @apply gap-6;
+  }
+
+  .gap-page-xl {
+    @apply gap-10;
+  }
+
+  /* ? Faster UI feel */
+  [data-state="open"] {
+    transition-duration: 120ms;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 142 72% 42%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 142 35% 94%;
+    --secondary-foreground: 142 60% 20%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 142 45% 90%;
+    --accent-foreground: 142 65% 20%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 90%;
+    --input: 214 32% 90%;
+    --ring: 142 72% 42%;
+    --radius: 14px;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+    --primary: 142 65% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 142 25% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --accent: 142 35% 22%;
+    --accent-foreground: 210 40% 98%;
+    --border: 222 30% 20%;
+    --input: 222 30% 20%;
+    --ring: 142 71% 45%;
+  }
+
+  body {
+    @apply bg-linear-to-br from-green-50 via-white to-emerald-50 text-foreground transition-colors duration-300 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950;
+  }
+}

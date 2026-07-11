@@ -65,3 +65,4 @@ build/
 .env.test.local
 .env.production.local
 Thumbs.db       # Windows
+server\utils\files
