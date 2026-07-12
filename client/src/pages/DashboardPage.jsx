@@ -49,7 +49,7 @@ const DashboardPage = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-4">
       <section className="relative rounded-3xl min-h-720px flex flex-col overflow-visible">
 
         <img

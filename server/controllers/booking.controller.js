@@ -6,7 +6,7 @@ const emailService = require('../redis_tcp/emailService');
 const { cancelBookingAndPromoteWaitlist } = require('../services/bookingCancellation.service');
 const { buildRtcPredictionPayload, sendRtcPrediction } = require('../services/rtcPredictionService');
 // Import the template at the top of your file
-const { getBookingConfirmationEmail } = require('../templates/emailTemplate');
+// const { getBookingConfirmationEmail } = require('../templates/emailTemplate');
 const User = db.User;
 const Booking = db.Booking;
 const Ticket = db.Ticket;
@@ -388,19 +388,26 @@ const bookingDetails = await Booking.findByPk(newBooking.id, {
   }],
 });
 
-try {
-  const user = await User.findByPk(user_id);
-  if (user?.email) {
-    await emailService.sendEmail({
-      to: user.email,
-      subject: 'Booking Confirmation - ' + bookingDetails.pnr,
-      // Pass the booking object into your new template function
-      html: getBookingConfirmationEmail(bookingDetails)
-    });
-  }
-} catch (error) {
-  console.error("Email failed:", error);
-}
+// --- Send Confirmation Email (non-blocking) ---
+      try {
+        const user = await User.findByPk(user_id);
+        if (user?.email) {
+          const emailResult = await emailService.sendEmail({
+            to: user.email,
+            subject: 'Booking Confirmation',
+            html: `<p>
+            Thank you for booking with us. 
+            Your booking (PNR: <strong>${bookingDetails.pnr}</strong>) is confirmed.
+          </p> <p>Booking details:</p> ${JSON.stringify(bookingDetails, null, 2)}`, // HTML body contentYour booking (PNR: ${bookingDetails.pnr}) is confirmed.`
+          });
+          if (emailResult.error) {
+            console.warn('⚠️ Email sending failed:', emailResult.error);
+          }
+        }
+      } catch (err) {
+        console.warn('⚠️ Email sending failed:', err.message);
+        // Continue - don't fail booking if email fails
+      }
 
       return res.status(201).send({
         message: 'Booking confirmed successfully.',
