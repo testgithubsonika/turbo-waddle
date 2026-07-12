@@ -72,10 +72,12 @@ const PORT = 5000;
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}.`);
+  // await connectDB();
   await connectDB();
-  db.sequelize.sync({ alter: true })
-    .then(() => console.log('Database synced successfully.'))
-    .catch((err) => console.error('Failed to sync database:', err.message));
+console.log("Database connected.");
+//   db.sequelize.sync({ alter: true })
+//     .then(() => console.log('Database synced successfully.'))
+//     .catch((err) => console.error('Failed to sync database:', err.message));
 });
 module.exports = app;
 //database url then bullmq workers,
