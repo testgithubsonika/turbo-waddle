@@ -5,7 +5,8 @@ const generatePNR = require('../utils/pnrGenerator');
 const emailService = require('../redis_tcp/emailService');
 const { cancelBookingAndPromoteWaitlist } = require('../services/bookingCancellation.service');
 const { buildRtcPredictionPayload, sendRtcPrediction } = require('../services/rtcPredictionService');
-
+// Import the template at the top of your file
+import { getBookingConfirmationEmail } from './emailTemplate.js';
 const User = db.User;
 const Booking = db.Booking;
 const Ticket = db.Ticket;
@@ -272,15 +273,17 @@ exports.createBooking = async (req, res) => {
         * passengers.length;
 
       const newBooking = await Booking.create({
-        user_id,
-        pnr: generatePNR(),
-        journey_date: journeyDate,
-        quota,
-        status: bookingStatus,
-        wl_number,
-        rac_number,
-        total_fare: totalFare,
-      }, { transaction: t });
+    user_id,
+    train_id: trainId,
+    class_type: classType,
+    pnr: generatePNR(),
+    journey_date: journeyDate,
+    quota,
+    status: bookingStatus,
+    wl_number,
+    rac_number,
+    total_fare: totalFare,
+}, { transaction: t });
 
       // --- Assign Seats Only for CNF ---
       if (bookingStatus === 'CNF') {
@@ -374,36 +377,30 @@ exports.createBooking = async (req, res) => {
       } catch (_) {}
 
       // --- Fetch Full `seat_lock_${trainId}_${routeId}_${journeyDate}`h Relations ---
-      const bookingDetails = await Booking.findByPk(newBooking.id, {
-        include: [{
-          model: Ticket,
-          include: [{
-            model: Seat,
-            attributes: ['seat_number', 'coach', 'class_type'],
-          }],
-        }],
-      });
+      // const bookingDetails = await Booking.findByPk(newBooking.id, {
+const bookingDetails = await Booking.findByPk(newBooking.id, {
+  include: [{
+    model: Ticket,
+    include: [{
+      model: Seat,
+      attributes: ['seat_number', 'coach', 'class_type'],
+    }],
+  }],
+});
 
-      // --- Send Confirmation Email (non-blocking) ---
-      try {
-        const user = await User.findByPk(user_id);
-        if (user?.email) {
-          const emailResult = await emailService.sendEmail({
-            to: user.email,
-            subject: 'Booking Confirmation',
-            html: `<p>
-            Thank you for booking with us. 
-            Your booking (PNR: <strong>${bookingDetails.pnr}</strong>) is confirmed.
-          </p> <p>Booking details:</p> ${JSON.stringify(bookingDetails, null, 2)}`, // HTML body contentYour booking (PNR: ${bookingDetails.pnr}) is confirmed.`
-          });
-          if (emailResult.error) {
-            console.warn('⚠️ Email sending failed:', emailResult.error);
-          }
-        }
-      } catch (err) {
-        console.warn('⚠️ Email sending failed:', err.message);
-        // Continue - don't fail booking if email fails
-      }
+try {
+  const user = await User.findByPk(user_id);
+  if (user?.email) {
+    await emailService.sendEmail({
+      to: user.email,
+      subject: 'Booking Confirmation - ' + bookingDetails.pnr,
+      // Pass the booking object into your new template function
+      html: getBookingConfirmationEmail(bookingDetails)
+    });
+  }
+} catch (error) {
+  console.error("Email failed:", error);
+}
 
       return res.status(201).send({
         message: 'Booking confirmed successfully.',
