@@ -2,7 +2,7 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const DAYS_AHEAD = 9; // seed for next 30 days
+    const DAYS_AHEAD = 7; // seed for next 30 days
 
     const trains = await queryInterface.sequelize.query(
       `SELECT id, fare_structure FROM trains`,
@@ -119,20 +119,8 @@ module.exports = {
       }
     }
 
-    const BATCH_SIZE = 1000;
-
-for (let i = 0; i < rows.length; i += BATCH_SIZE) {
-  await queryInterface.bulkInsert(
-    "seat_availability",
-    rows.slice(i, i + BATCH_SIZE)
-  );
-
-  console.log(
-    `Inserted ${Math.min(i + BATCH_SIZE, rows.length)} / ${rows.length}`
-  );
-}
-
-console.log(`✅ Seeded ${rows.length} seat_availability rows`);
+    await queryInterface.bulkInsert('seat_availability', rows);
+    console.log(`✅ Seeded ${rows.length} seat_availability rows`);
   },
 
   async down(queryInterface) {
