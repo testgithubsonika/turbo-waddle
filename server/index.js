@@ -10,6 +10,7 @@ const app = express();
 const allowedFrontendOrigins = [
   'http://localhost:5000',
   'http://localhost:5174',
+  "https://turbo-waddle-phi.vercel.app",
   'http://localhost:5173', // Vite default dev port
   process.env.FRONTEND_URL,
 ].filter(Boolean);
@@ -22,7 +23,7 @@ app.use(cors({
 }));
 
 console.log('CORS allowed origins:', allowedFrontendOrigins);
-
+console.log("Blocked Origin:", origin);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
