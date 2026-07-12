@@ -23,7 +23,8 @@ app.use(cors({
 }));
 
 console.log('CORS allowed origins:', allowedFrontendOrigins);
-console.log("Blocked Origin:", origin);
+// console.log("Blocked Origin:", origin);
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
