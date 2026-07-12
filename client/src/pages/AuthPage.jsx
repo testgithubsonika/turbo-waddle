@@ -55,7 +55,7 @@ const Field = ({ label, icon, type, name, placeholder, value, onChange, required
         value={value}
         onChange={onChange}
         required={required}
-        className="h-12 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 pl-10 pr-4 text-sm text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-indigo-400 focus:bg-white dark:bg-slate-900 focus:ring-2 focus:ring-indigo-400/30 hover:border-gray-300"
+        className="h-12 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50  pl-10 pr-4 text-sm text-gray-800 placeholder:text-gray-400 outline-none transition focus:border-indigo-400 focus:bg-white dark:bg-slate-900 focus:ring-2 focus:ring-indigo-400/30 hover:border-gray-300"
       />
     </div>
   </div>
