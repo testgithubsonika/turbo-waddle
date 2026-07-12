@@ -1,13 +1,7 @@
-// const { Sequelize } = require('sequelize');
+require('dotenv').config();
 const { Sequelize } = require("sequelize");
 
-// const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//   dialect: "postgres",   // or "mysql" depending on your DB
-// });
-
-require('dotenv').config();
-// const { Sequelize } = require("sequelize");
-
+// Initialize Sequelize once
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
   dialectOptions: {
@@ -17,23 +11,8 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     }
   }
 });
-module.exports = sequelize;
 
-//Force CLI to use the this config:
-//npx sequelize-cli db:seed:all --config config/config.js
-
-// const sequelize = new Sequelize(
-//   process.env.DB_NAME,
-//   process.env.DB_USER,
-//   process.env.DB_PASSWORD,
-//   {
-//     host: process.env.DB_HOST,
-//     port: process.env.DB_PORT,
-//     dialect: process.env.DB_DIALECT,
-//     logging: false, 
-//   }
-// );
-
+// Connection check helper
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
@@ -44,4 +23,5 @@ const connectDB = async () => {
   }
 };
 
+// Export both in one object
 module.exports = { sequelize, connectDB };
