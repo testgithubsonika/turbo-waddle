@@ -3,7 +3,19 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
+
+
   async up (queryInterface, Sequelize) {
+     // Skip if already seeded
+    const existing = await queryInterface.sequelize.query(
+      'SELECT COUNT(*) AS count FROM route_stations;',
+      { type: Sequelize.QueryTypes.SELECT }
+    );
+
+    if (Number(existing[0].count) > 0) {
+      console.log('✅ Route stations already seeded. Skipping...');
+      return;
+    }
     await queryInterface.createTable('route_stations', {
       id: {
         type: Sequelize.INTEGER,
