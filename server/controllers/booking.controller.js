@@ -6,7 +6,7 @@ const emailService = require('../redis_tcp/emailService');
 const { cancelBookingAndPromoteWaitlist } = require('../services/bookingCancellation.service');
 const { buildRtcPredictionPayload, sendRtcPrediction } = require('../services/rtcPredictionService');
 // Import the template at the top of your file
-const { getBookingConfirmationEmail } = require('../utils/emailTemplates');
+const { getBookingConfirmationEmail } = require('../templates/emailTemplate');
 const User = db.User;
 const Booking = db.Booking;
 const Ticket = db.Ticket;
