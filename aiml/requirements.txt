@@ -1,4 +1,3 @@
-# requirements.txt
 fastapi
 uvicorn
 joblib
@@ -6,3 +5,4 @@ scikit-learn
 xgboost
 pandas
 numpy
+pydantic
