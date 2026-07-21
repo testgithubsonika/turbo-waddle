@@ -17,7 +17,7 @@ Search • Book • Predict • Manage
 
 ---
 
-## 📖 Overview
+##  📖 Overview
 
 **TripSure** is a modern full-stack train ticket booking platform that combines a powerful booking system with Machine Learning to help users make smarter booking decisions.
 
