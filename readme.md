@@ -328,47 +328,6 @@ POST /predict
 
 ---
 
-# 📷 Screenshots
-
-## 🏠 Home Page
-
-> Add screenshot here
-
-```
-screenshots/home.png
-```
-
----
-
-## 🔍 Search Results
-
-> Add screenshot here
-
-```
-screenshots/search.png
-```
-
----
-
-## 🤖 AI Prediction
-
-> Add screenshot here
-
-```
-screenshots/prediction.png
-```
-
----
-
-## 🎫 Booking Page
-
-> Add screenshot here
-
-```
-screenshots/booking.png
-```
-
----
 
 # 🎯 Future Enhancements
 
